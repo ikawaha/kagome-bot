@@ -26,6 +26,12 @@ func main() {
 		msg, err := bot.GetMessage()
 		if err != nil {
 			log.Printf("receive error, %v", err)
+			bot.Close()
+			if bot, err = client.New(os.Args[1]); err != nil { // reboot
+				log.Fatalf("reboot failed, %v", err)
+			}
+			log.Printf("reboot")
+			continue
 		}
 		log.Printf("bot_id: %v, msg_user_id: %v, msg:%+v\n", bot.ID, msg.UserID, msg)
 		if bot.ID != msg.MentionID() || msg.Type != "message" && msg.SubType != "" {
