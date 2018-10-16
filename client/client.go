@@ -2,6 +2,7 @@ package client
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -135,9 +136,21 @@ func (c Client) UserName(uid string) string {
 
 // GetMessage receives a message from the slack channel.
 func (c *Client) GetMessage() (Message, error) {
+	ctx := context.Background()
+	ctx, cancel := context.WithTimeout(ctx, time.Minute)
+	defer cancel()
+	ch := make(chan error, 1)
+
 	var msg Message
-	if e := websocket.JSON.Receive(c.socket, &msg); e != nil {
-		return msg, e
+	go func() {
+		ch <- websocket.JSON.Receive(c.socket, &msg)
+	}()
+
+	select {
+	case err := <-ch:
+		return msg, err
+	case <-ctx.Done():
+		return msg, fmt.Errorf("timeout")
 	}
 	return msg, nil
 }
