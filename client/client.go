@@ -19,6 +19,7 @@ import (
 
 const (
 	EventTypeMessage = "message"
+	EventTypePing    = "ping"
 )
 
 var (
@@ -137,13 +138,17 @@ func (c Client) UserName(uid string) string {
 // GetMessage receives a message from the slack channel.
 func (c *Client) GetMessage() (Message, error) {
 	ctx := context.Background()
-	ctx, cancel := context.WithTimeout(ctx, time.Minute)
+	ctx, cancel := context.WithTimeout(ctx, 2*time.Minute)
 	defer cancel()
 	ch := make(chan error, 1)
 
 	var msg Message
 	go func() {
 		ch <- websocket.JSON.Receive(c.socket, &msg)
+	}()
+	go func() {
+		time.Sleep(time.Minute)
+		websocket.JSON.Send(c.socket, &Message{Type:EventTypePing})
 	}()
 
 	select {
