@@ -1,4 +1,4 @@
-package client
+package slack
 
 import (
 	"testing"
@@ -19,7 +19,7 @@ func TestClientUserName(t *testing.T) {
 	b := Client{Users: m}
 	for id, user := range m {
 		if u := b.UserName(id); u != user {
-			t.Errorf("got %v, expected empty", u, user)
+			t.Errorf("got %v, expected %v", u, user)
 		}
 	}
 }

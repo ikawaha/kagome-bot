@@ -1,4 +1,4 @@
-package client
+package slack
 
 // Message represents a message.
 type Message struct {
