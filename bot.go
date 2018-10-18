@@ -9,28 +9,31 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ikawaha/kagome-bot/slack"
 	"github.com/ikawaha/kagome/tokenizer"
+	"github.com/ikawaha/slackbot"
 )
 
 const (
-	graphvizCmd = "circo"
-	cmdTimeout  = 25 * time.Second
+	GraphvizCmd = "circo"
+	CmdTimeout  = 25 * time.Second
+
+	UploadFileType      = "png"
+	UploadImageFileName = "lattice.png"
 )
 
 type Bot struct {
-	*slack.Client
+	*slackbot.Client
 }
 
 func NewBot(token string) (*Bot, error) {
-	c, err := slack.New(token)
+	c, err := slackbot.New(token)
 	if err != nil {
 		return nil, err
 	}
 	return &Bot{Client: c}, err
 }
 
-func (bot Bot) Response(msg slack.Message) {
+func (bot Bot) Response(msg slackbot.Message) {
 	sen := msg.TextBody()
 	if len(sen) == 0 {
 		msg.Text = "呼んだ？"
@@ -45,17 +48,17 @@ func (bot Bot) Response(msg slack.Message) {
 		return
 	}
 	comment := "```" + yield(tokens) + "```"
-	if err := bot.UploadImage(msg.Channel, sen, "lattice.png", "png", comment, img); err != nil {
+	if err := bot.UploadImage([]string{msg.Channel}, sen, UploadImageFileName, UploadFileType, comment, img); err != nil {
 		log.Printf("upload lattice image error, %v", err)
 	}
 }
 
 func createTokenizeLatticeImage(sen string) (io.Reader, []tokenizer.Token, error) {
-	if _, err := exec.LookPath(graphvizCmd); err != nil {
-		return nil, nil, fmt.Errorf("circo/graphviz is not installed in your $PATH")
+	if _, err := exec.LookPath(GraphvizCmd); err != nil {
+		return nil, nil, fmt.Errorf("command %v is not installed in your $PATH", GraphvizCmd)
 	}
 	var buf bytes.Buffer
-	cmd := exec.Command("dot", "-Tpng")
+	cmd := exec.Command("dot", "-T"+UploadFileType)
 	r0, w0 := io.Pipe()
 	cmd.Stdin = r0
 	cmd.Stdout = &buf
@@ -71,7 +74,7 @@ func createTokenizeLatticeImage(sen string) (io.Reader, []tokenizer.Token, error
 		done <- cmd.Wait()
 	}()
 	select {
-	case <-time.After(cmdTimeout):
+	case <-time.After(CmdTimeout):
 		if err := cmd.Process.Kill(); err != nil {
 			return nil, nil, fmt.Errorf("failed to kill, %v", err)
 		}
