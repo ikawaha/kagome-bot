@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-
-	"github.com/ikawaha/kagome-bot/client"
 )
 
 func main() {
@@ -15,7 +13,7 @@ func main() {
 	}
 
 	// start a websocket-based Real Time API session
-	bot, err := client.New(os.Args[1])
+	bot, err := NewBot(os.Args[1])
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -27,7 +25,7 @@ func main() {
 		if err != nil {
 			log.Printf("receive error, %v", err)
 			bot.Close()
-			if bot, err = client.New(os.Args[1]); err != nil { // reboot
+			if bot, err = NewBot(os.Args[1]); err != nil { // reboot
 				log.Fatalf("reboot failed, %v", err)
 			}
 			log.Printf("reboot")
@@ -37,24 +35,6 @@ func main() {
 		if bot.ID != msg.MentionID() || msg.Type != "message" && msg.SubType != "" {
 			continue
 		}
-		go func(m client.Message) {
-			sen := m.TextBody()
-			if len(sen) == 0 {
-				m.Text = "呼んだ？"
-				bot.PostMessage(m)
-				return
-			}
-			img, tokens, err := createTokenizeLatticeImage(sen)
-			if err != nil {
-				log.Printf("create lattice image error, %v", err)
-				m.Text = fmt.Sprintf("形態素解析に失敗しちゃいました．%v です", err)
-				bot.PostMessage(m)
-				return
-			}
-			comment := "```" + yield(tokens) + "```"
-			if err := bot.UploadImage(m.Channel, sen, "lattice.png", "png", comment, img); err != nil {
-				log.Printf("upload lattice image error, %v", err)
-			}
-		}(msg)
+		go bot.Response(msg)
 	}
 }
