@@ -20,6 +20,8 @@ import (
 const (
 	EventTypeMessage = "message"
 	EventTypePing    = "ping"
+
+	Timeout = time.Minute
 )
 
 var (
@@ -137,25 +139,30 @@ func (c Client) UserName(uid string) string {
 
 // GetMessage receives a message from the slack channel.
 func (c *Client) GetMessage() (Message, error) {
-	ctx := context.Background()
-	ctx, cancel := context.WithTimeout(ctx, 2*time.Minute)
+	ctx, cancel := context.WithTimeout(context.Background(), Timeout)
 	defer cancel()
 	ch := make(chan error, 1)
+
+	go func(ctx context.Context, waiting time.Duration) {
+		ctx, cancel := context.WithCancel(ctx)
+		defer cancel()
+		select {
+		case <-ctx.Done():
+		case <-time.After(waiting):
+			websocket.JSON.Send(c.socket, &Message{Type: EventTypePing, Time: time.Now().Unix()})
+		}
+	}(ctx, Timeout-time.Second)
 
 	var msg Message
 	go func() {
 		ch <- websocket.JSON.Receive(c.socket, &msg)
-	}()
-	go func() {
-		time.Sleep(time.Minute)
-		websocket.JSON.Send(c.socket, &Message{Type:EventTypePing})
 	}()
 
 	select {
 	case err := <-ch:
 		return msg, err
 	case <-ctx.Done():
-		return msg, fmt.Errorf("timeout")
+		return msg, fmt.Errorf("connection lost timeout")
 	}
 	return msg, nil
 }
