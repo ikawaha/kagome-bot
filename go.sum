@@ -1,6 +1,9 @@
-github.com/ikawaha/kagome v1.8.1 h1:foYSU0qbOfvo5EMq0erAD7czOjRu5WmjGb/lQnBXAm4=
-github.com/ikawaha/kagome v1.8.1/go.mod h1:LgiXSUkkuqhYpcnhn7WTNCK1s+UZhD8GGX9jIf2zGNw=
-github.com/ikawaha/slackbot v1.0.0 h1:0RQsXYsDDA+Rr1cBc2jLDpKRBzDW8gZ3+OPgSE3hoUw=
-github.com/ikawaha/slackbot v1.0.0/go.mod h1:cstn+nWXdTReepTBOmUd/ptW6mNexCeBTDjMjtsSFe4=
-golang.org/x/net v0.0.0-20181017193950-04a2e542c03f h1:4pRM7zYwpBjCnfA1jRmhItLxYJkaEnsmuAcRtA347DA=
-golang.org/x/net v0.0.0-20181017193950-04a2e542c03f/go.mod h1:mL1N/T3taQHkDXs73rZJwtUhF3w3ftmwwsq0BUmARs4=
+github.com/ikawaha/kagome v1.9.0 h1:y+25+usi30nymrZ0iUunvtnMuVA/Ba3TWewceIrD4rM=
+github.com/ikawaha/kagome v1.9.0/go.mod h1:eEV1yEy8Hm2eJRMz6nU1OlbrafRqXTECbsmm9aUMX2s=
+github.com/ikawaha/slackbot v1.0.1 h1:4ZeEYJJ7wAxE2iHSwy6DEsOBHLp15NF3Tu/EjzCFKss=
+github.com/ikawaha/slackbot v1.0.1/go.mod h1:+PhPvCxFWX43iZfIWHETMl116eGceWVyeCiPCrSSMIM=
+golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
+golang.org/x/net v0.0.0-20190404232315-eb5bcb51f2a3 h1:0GoQqolDA55aaLxZyTzK/Y2ePZzZTUrRacwib7cNsYQ=
+golang.org/x/net v0.0.0-20190404232315-eb5bcb51f2a3/go.mod h1:t9HGtf8HONx5eT2rtn7q6eTqICYqUVnKs3thJo3Qplg=
+golang.org/x/sys v0.0.0-20190215142949-d0b11bdaac8a/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
+golang.org/x/text v0.3.0/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
