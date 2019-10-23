@@ -66,7 +66,7 @@ func createTokenizeLatticeImage(sen string) (io.Reader, []tokenizer.Token, error
 		return nil, nil, fmt.Errorf("process done with error = %v", err)
 	}
 	t := tokenizer.New()
-	tokens := t.AnalyzeGraph(sen, tokenizer.Normal, w0)
+	tokens := t.AnalyzeGraph(w0, sen, tokenizer.Normal)
 	w0.Close()
 
 	done := make(chan error, 1)
