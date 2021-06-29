@@ -1,5 +1,5 @@
-github.com/ikawaha/kagome v1.11.1 h1:lCpczGLx/aWwXUQ0+aHd7Sq4fiHWW9hSAMtO2Rm3HBs=
-github.com/ikawaha/kagome v1.11.1/go.mod h1:lHwhkGuuWqKWTxeQMppD0EmQAfKbc39QKx9qoWqgo+A=
+github.com/ikawaha/kagome v1.11.2 h1:eCWpLqv5Euqa5JcwkaobUSy6uGM8rwwMw5Su3eRepBI=
+github.com/ikawaha/kagome v1.11.2/go.mod h1:lHwhkGuuWqKWTxeQMppD0EmQAfKbc39QKx9qoWqgo+A=
 github.com/ikawaha/slackbot v1.0.1 h1:4ZeEYJJ7wAxE2iHSwy6DEsOBHLp15NF3Tu/EjzCFKss=
 github.com/ikawaha/slackbot v1.0.1/go.mod h1:+PhPvCxFWX43iZfIWHETMl116eGceWVyeCiPCrSSMIM=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
