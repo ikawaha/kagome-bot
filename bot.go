@@ -48,7 +48,7 @@ func (bot Bot) Response(msg slackbot.Message) {
 	if err != nil {
 		log.Printf("create lattice image error, %v", err)
 		msg.Text = fmt.Sprintf("形態素解析に失敗しちゃいました．%v です", err)
-		if err :=bot.PostMessage(msg); err != nil {
+		if err := bot.PostMessage(msg); err != nil {
 			log.Printf("post message failed, msg: %+v, %v", msg, err)
 		}
 		return
@@ -79,10 +79,10 @@ func createTokenizeLatticeImage(sen string) (io.Reader, []tokenizer.Token, error
 	}
 	tokens := t.AnalyzeGraph(w0, sen, tokenizer.Normal)
 	if err := w0.Close(); err != nil {
-		return nil, nil,  fmt.Errorf("pipe close error, %w", err)
+		return nil, nil, fmt.Errorf("pipe close error, %w", err)
 	}
 	if err := cmd.Wait(); err != nil {
-		return nil, nil,  fmt.Errorf("process done with error, %w", err)
+		return nil, nil, fmt.Errorf("process done with error, %w", err)
 	}
 	return &buf, tokens, nil
 }

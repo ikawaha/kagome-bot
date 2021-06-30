@@ -22,7 +22,7 @@ func main() {
 	defer bot.Close()
 	fmt.Println("^C exits")
 
-	mentionTag := "<@"+bot.ID+">"
+	mentionTag := "<@" + bot.ID + ">"
 	for {
 		msg, err := bot.ReceiveMessage(context.TODO())
 		if err != nil {
@@ -35,7 +35,7 @@ func main() {
 			continue
 		}
 		log.Printf("bot_id: %v, msg_user_id: %v, msg:%+v\n", bot.ID, msg.UserID, msg)
-		if  msg.Type != "message" && msg.SubType != "" || !strings.HasPrefix(msg.Text, mentionTag){
+		if msg.Type != "message" && msg.SubType != "" || !strings.HasPrefix(msg.Text, mentionTag) {
 			continue
 		}
 		msg.Text = strings.TrimSpace(msg.Text[len(mentionTag):])
