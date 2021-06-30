@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"io"
 	"log"
@@ -9,7 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ikawaha/kagome/tokenizer"
+	"github.com/ikawaha/kagome-dict/ipa"
+	"github.com/ikawaha/kagome/v2/tokenizer"
 	"github.com/ikawaha/slackbot"
 )
 
@@ -34,17 +36,21 @@ func NewBot(token string) (*Bot, error) {
 }
 
 func (bot Bot) Response(msg slackbot.Message) {
-	sen := msg.TextBody()
+	sen := msg.Text
 	if len(sen) == 0 {
 		msg.Text = "呼んだ？"
-		bot.PostMessage(msg)
+		if err := bot.PostMessage(msg); err != nil {
+			log.Printf("post message failed, msg: %+v, %v", msg, err)
+		}
 		return
 	}
 	img, tokens, err := createTokenizeLatticeImage(sen)
 	if err != nil {
 		log.Printf("create lattice image error, %v", err)
 		msg.Text = fmt.Sprintf("形態素解析に失敗しちゃいました．%v です", err)
-		bot.PostMessage(msg)
+		if err :=bot.PostMessage(msg); err != nil {
+			log.Printf("post message failed, msg: %+v, %v", msg, err)
+		}
 		return
 	}
 	comment := "```" + yield(tokens) + "```"
@@ -54,36 +60,29 @@ func (bot Bot) Response(msg slackbot.Message) {
 }
 
 func createTokenizeLatticeImage(sen string) (io.Reader, []tokenizer.Token, error) {
+	t, err := tokenizer.New(ipa.Dict())
+	if err != nil {
+		return nil, nil, fmt.Errorf("tokenizer initialization failed, %w", err)
+	}
 	if _, err := exec.LookPath(GraphvizCmd); err != nil {
 		return nil, nil, fmt.Errorf("command %v is not installed in your $PATH", GraphvizCmd)
 	}
 	var buf bytes.Buffer
-	cmd := exec.Command("dot", "-T"+UploadFileType)
+	ctx, cancel := context.WithTimeout(context.Background(), CmdTimeout)
+	defer cancel()
+	cmd := exec.CommandContext(ctx, "dot", "-T"+UploadFileType)
 	r0, w0 := io.Pipe()
 	cmd.Stdin = r0
 	cmd.Stdout = &buf
 	if err := cmd.Start(); err != nil {
-		return nil, nil, fmt.Errorf("process done with error = %v", err)
+		return nil, nil, fmt.Errorf("process done with error, %w", err)
 	}
-	t := tokenizer.New()
 	tokens := t.AnalyzeGraph(w0, sen, tokenizer.Normal)
-	w0.Close()
-
-	done := make(chan error, 1)
-	go func() {
-		done <- cmd.Wait()
-	}()
-	select {
-	case <-time.After(CmdTimeout):
-		if err := cmd.Process.Kill(); err != nil {
-			return nil, nil, fmt.Errorf("failed to kill, %v", err)
-		}
-		<-done
-		return nil, nil, fmt.Errorf("graphviz timeout")
-	case err := <-done:
-		if err != nil {
-			return nil, nil, fmt.Errorf("process done with error, %v", err)
-		}
+	if err := w0.Close(); err != nil {
+		return nil, nil,  fmt.Errorf("pipe close error, %w", err)
+	}
+	if err := cmd.Wait(); err != nil {
+		return nil, nil,  fmt.Errorf("process done with error, %w", err)
 	}
 	return &buf, tokens, nil
 }
