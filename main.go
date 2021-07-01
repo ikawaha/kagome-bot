@@ -1,9 +1,11 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -20,8 +22,9 @@ func main() {
 	defer bot.Close()
 	fmt.Println("^C exits")
 
+	mentionTag := "<@" + bot.ID + ">"
 	for {
-		msg, err := bot.GetMessage()
+		msg, err := bot.ReceiveMessage(context.TODO())
 		if err != nil {
 			log.Printf("receive error, %v", err)
 			bot.Close()
@@ -32,9 +35,10 @@ func main() {
 			continue
 		}
 		log.Printf("bot_id: %v, msg_user_id: %v, msg:%+v\n", bot.ID, msg.UserID, msg)
-		if bot.ID != msg.MentionID() || msg.Type != "message" && msg.SubType != "" {
+		if msg.Type != "message" && msg.SubType != "" || !strings.HasPrefix(msg.Text, mentionTag) {
 			continue
 		}
+		msg.Text = strings.TrimSpace(msg.Text[len(mentionTag):])
 		go bot.Response(msg)
 	}
 }
