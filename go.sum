@@ -3,8 +3,8 @@ github.com/ikawaha/kagome-dict v1.0.3/go.mod h1:8Ma5E21J2kyaak6KumYLWGLKxm1kaAkC
 github.com/ikawaha/kagome-dict/ipa v1.0.3 h1:jt2toGpRha7PPD5mqKEOabmAssichf1IwJykpstgN0s=
 github.com/ikawaha/kagome-dict/ipa v1.0.3/go.mod h1:zpMcAFSLDYEq+UI3GnF3IcZE5a0rKB2J0rrKGY6HYW8=
 github.com/ikawaha/kagome-dict/uni v1.1.2/go.mod h1:3rH19G7Fp+BQcRMv9GDwZzbXNkHttfcoOVdv9Pi+zyU=
-github.com/ikawaha/kagome/v2 v2.5.0 h1:+Z9fyr3ngVmQu5Mb6/G7JA3pBIxxC64sk5ubZ61TEbc=
-github.com/ikawaha/kagome/v2 v2.5.0/go.mod h1:mi7ZmwkJ3HJuQxj4aYXt801oGqjvMwsYy4HSD/e3Vxg=
+github.com/ikawaha/kagome/v2 v2.6.0 h1:hPBcVt85Sv9VbNxtD+qxMidfQGfpNAWff/UCvIWY+dA=
+github.com/ikawaha/kagome/v2 v2.6.0/go.mod h1:mi7ZmwkJ3HJuQxj4aYXt801oGqjvMwsYy4HSD/e3Vxg=
 github.com/ikawaha/slackbot v1.2.0 h1:p/BAOmYPYkh8lq3iKzHfBUXmGMzsEKZYLCWs7weZlzk=
 github.com/ikawaha/slackbot v1.2.0/go.mod h1:+PhPvCxFWX43iZfIWHETMl116eGceWVyeCiPCrSSMIM=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
