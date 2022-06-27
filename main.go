@@ -6,16 +6,18 @@ import (
 	"log"
 	"os"
 	"strings"
+
+	"github.com/ikawaha/slackbot/socketmode"
 )
 
 func main() {
-	if len(os.Args) != 2 {
-		fmt.Fprintf(os.Stderr, "usage: bot slack-bot-token\n")
+	if len(os.Args) != 4 {
+		fmt.Fprintf(os.Stderr, "usage: bot app-level-token slack-bot-token name")
 		os.Exit(1)
 	}
 
 	// start a websocket-based Real Time API session
-	bot, err := NewBot(os.Args[1])
+	bot, err := NewBot(os.Args[1], os.Args[2], os.Args[3])
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -24,21 +26,16 @@ func main() {
 
 	mentionTag := "<@" + bot.ID + ">"
 	for {
-		msg, err := bot.ReceiveMessage(context.TODO())
-		if err != nil {
-			log.Printf("receive error, %v", err)
-			bot.Close()
-			if bot, err = NewBot(os.Args[1]); err != nil { // reboot
-				log.Fatalf("reboot failed, %v", err)
+		if err := bot.ReceiveMessage(context.TODO(), func(ctx context.Context, ev *socketmode.Event) error {
+			log.Printf("bot_id: %v, msg_user_id: %v, event: %+v\n", bot.ID, ev.UserID, ev)
+			if !ev.IsMessage() || !strings.HasPrefix(ev.Text, mentionTag) {
+				return nil
 			}
-			log.Printf("reboot")
-			continue
+			ev.Text = strings.TrimSpace(ev.Text[len(mentionTag):])
+			go bot.Response(ev)
+			return nil
+		}); err != nil {
+			log.Fatal(err)
 		}
-		log.Printf("bot_id: %v, msg_user_id: %v, msg:%+v\n", bot.ID, msg.UserID, msg)
-		if msg.Type != "message" && msg.SubType != "" || !strings.HasPrefix(msg.Text, mentionTag) {
-			continue
-		}
-		msg.Text = strings.TrimSpace(msg.Text[len(mentionTag):])
-		go bot.Response(msg)
 	}
 }

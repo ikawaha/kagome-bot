@@ -27,34 +27,34 @@ type Bot struct {
 	*slackbot.Client
 }
 
-func NewBot(token string) (*Bot, error) {
-	c, err := slackbot.New(token)
+func NewBot(appToken, botToken, botName string) (*Bot, error) {
+	c, err := slackbot.New(appToken, botToken, botName)
 	if err != nil {
 		return nil, err
 	}
 	return &Bot{Client: c}, err
 }
 
-func (bot Bot) Response(msg slackbot.Message) {
-	sen := msg.Text
+func (bot Bot) Response(e *slackbot.Event) {
+	sen := e.Text
 	if len(sen) == 0 {
-		msg.Text = "呼んだ？"
-		if err := bot.PostMessage(msg); err != nil {
-			log.Printf("post message failed, msg: %+v, %v", msg, err)
+		e.Text = "呼んだ？"
+		if err := bot.PostMessage(context.TODO(), e.Channel, e.Text); err != nil {
+			log.Printf("post message failed, msg: %+v, %v", e, err)
 		}
 		return
 	}
 	img, tokens, err := createTokenizeLatticeImage(sen)
 	if err != nil {
 		log.Printf("create lattice image error, %v", err)
-		msg.Text = fmt.Sprintf("形態素解析に失敗しちゃいました．%v です", err)
-		if err := bot.PostMessage(msg); err != nil {
-			log.Printf("post message failed, msg: %+v, %v", msg, err)
+		e.Text = fmt.Sprintf("形態素解析に失敗しちゃいました．%v です", err)
+		if err := bot.PostMessage(context.TODO(), e.Channel, e.Text); err != nil {
+			log.Printf("post message failed, msg: %+v, %v", e, err)
 		}
 		return
 	}
 	comment := "```" + yield(tokens) + "```"
-	if err := bot.UploadImage([]string{msg.Channel}, sen, UploadImageFileName, UploadFileType, comment, img); err != nil {
+	if err := bot.UploadImage(context.TODO(), []string{e.Channel}, sen, UploadImageFileName, UploadFileType, comment, img); err != nil {
 		log.Printf("upload lattice image error, %v", err)
 	}
 }
