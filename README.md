@@ -11,8 +11,8 @@ kagome-bot is a slack bot which tokenizes a sentence and uploads it's lattice im
 # Usage
 
 ```
-$ go get github.com/ikawaha/kagome-bot
-$ kagome-bot <slack-bot-token>
+$ go install github.com/ikawaha/kagome-bot
+$ kagome-bot <app-level-token> <bot-token> <bot-name>
 ```
 
 # License
