@@ -28,7 +28,7 @@ type Bot struct {
 }
 
 func NewBot(appToken, botToken, botName string) (*Bot, error) {
-	c, err := slackbot.New(appToken, botToken, botName)
+	c, err := slackbot.New(appToken, botToken, slackbot.SetBotID(botName))
 	if err != nil {
 		return nil, err
 	}
