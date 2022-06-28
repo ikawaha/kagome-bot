@@ -15,6 +15,17 @@ $ go install github.com/ikawaha/kagome-bot
 $ kagome-bot <app-level-token> <bot-token> <bot-name>
 ```
 
+The required tokens and permissions are:
+
+* app-level token (enable socket mode)
+    * subscribe to bot events
+        * message.channels
+* bot token
+    * channels:history
+    * channels:join
+    * chat:write
+    * files:write
+
 # License
 
 MIT
