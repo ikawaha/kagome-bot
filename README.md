@@ -25,6 +25,7 @@ The required tokens and permissions are:
     * channels:join
     * chat:write
     * files:write
+    * users:read    
 
 # License
 
