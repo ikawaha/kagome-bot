@@ -1,11 +1,10 @@
-github.com/ikawaha/kagome-dict v1.0.3/go.mod h1:8Ma5E21J2kyaak6KumYLWGLKxm1kaAkCCWKWnrc5o/o=
-github.com/ikawaha/kagome-dict v1.0.4 h1:sxRKBqQ5FiJKeQwhvUmtumFqCm+GvCYiKRVgA08OQ+w=
-github.com/ikawaha/kagome-dict v1.0.4/go.mod h1:s6LsRECNl13K4miPTTG3/n6Pt7v3ClQfohMbK7qitzo=
-github.com/ikawaha/kagome-dict/ipa v1.0.4 h1:+vXHnhfgwNdm/DU4KrPaiRHO4zUht0w0iK4EtkVfrL8=
-github.com/ikawaha/kagome-dict/ipa v1.0.4/go.mod h1:zpMcAFSLDYEq+UI3GnF3IcZE5a0rKB2J0rrKGY6HYW8=
-github.com/ikawaha/kagome-dict/uni v1.1.3/go.mod h1:3rH19G7Fp+BQcRMv9GDwZzbXNkHttfcoOVdv9Pi+zyU=
-github.com/ikawaha/kagome/v2 v2.8.0 h1:4YhSr5gsIbmeglctyI9/29ekM8/tRNpB7697M29Zpds=
-github.com/ikawaha/kagome/v2 v2.8.0/go.mod h1:DSeT49bHcm+NLDqj3IKZ/WRcMiIK/ZuMjpu+mtb4wdw=
+github.com/ikawaha/kagome-dict v1.0.5 h1:7eUhaCuktTBVduV1/GwsEAR55ewBRJ2dDHtrzQHOnKc=
+github.com/ikawaha/kagome-dict v1.0.5/go.mod h1:IMAq6d/YI2kDegn2smxhOjejGX4aes5JgCeFik6zFXI=
+github.com/ikawaha/kagome-dict/ipa v1.0.6 h1:+v9o37pjnlZGVm2Jv98jxuZ+RJO3ZCEWa+ownJL6AMg=
+github.com/ikawaha/kagome-dict/ipa v1.0.6/go.mod h1:+ydIDyvA+g6weyS362m1Q4xT19kJUlF2ciBqbnOQ7WE=
+github.com/ikawaha/kagome-dict/uni v1.1.5/go.mod h1:Ya2z3FRSDz5H8XEWHdYG8CYGC8FD8TNFsfpJeLfnPnI=
+github.com/ikawaha/kagome/v2 v2.8.2 h1:vpZyqcJvPwSoHGpLp5tV/jkfLu/6xMQp/XiLbqgbHVM=
+github.com/ikawaha/kagome/v2 v2.8.2/go.mod h1:JhEWJvSq0RjE6eStA7SMe1u26UdvszWuneB1BJosXZI=
 github.com/ikawaha/slackbot v1.4.1 h1:TrRG4H16nNdw7ZeKy4cDwRRjVxmR21oa0su6MdlJ/4Q=
 github.com/ikawaha/slackbot v1.4.1/go.mod h1:n/Qd6ONJn1yufhVPWZm66OB2DCfdhbchqRQ6sF5gTdE=
 golang.org/x/net v0.0.0-20220624214902-1bab6f366d9e h1:TsQ7F31D3bUCLeqPT0u+yjp1guoArKaNKmCr22PYgTQ=
@@ -13,6 +12,5 @@ golang.org/x/net v0.0.0-20220624214902-1bab6f366d9e/go.mod h1:XRhObCWvk6IyKnWLug
 golang.org/x/sys v0.0.0-20210615035016-665e8c7367d1/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/term v0.0.0-20210927222741-03fcf44c2211/go.mod h1:jbD1KX2456YbFQfuXm/mYQcufACuNUgVhRMnK/tPxf8=
-golang.org/x/text v0.3.6/go.mod h1:5Zoc/QRtKVWzQhOtBMvqHzDpF6irO9z98xDceosuGiQ=
 golang.org/x/text v0.3.7/go.mod h1:u+2+/6zg+i71rQMx5EYifcz6MCKuco9NR6JIITiCfzQ=
 golang.org/x/tools v0.0.0-20180917221912-90fa682c2a6e/go.mod h1:n7NCudcB/nEzxVGmLbDWY5pfWTLqBcC2KZ6jyYvM4mQ=
