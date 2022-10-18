@@ -3,7 +3,7 @@ name: Go
 on:
   push:
     branches:
-      - v2
+      - main
   pull_request:
     types: [opened, synchronize]
 
@@ -13,25 +13,18 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        go: ['1.16.x']
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Set up Go 1.x
-        uses: actions/setup-go@v2
-        with:
-          go-version: ${{ matrix.go }}
-
       - name: Check out code into the Go module directory
         uses: actions/checkout@v2
-        with:
-          path: src/github.com/ikawaha/kagome-bot
+
+      - name: Set up Go 1.x
+        uses: actions/setup-go@v2
 
       - name: Build
         run: go build -v ./...
-        working-directory: src/github.com/ikawaha/kagome-bot
 
       - name: Test
         run: |
           go test -v ./...
-        working-directory: src/github.com/ikawaha/kagome-bot
