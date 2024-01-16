@@ -6,5 +6,5 @@ github.com/ikawaha/kagome/v2 v2.9.4 h1:8TgrcS47+nVCIOyQJRE33+VAqQrdKIGuZ8QI9sHz9
 github.com/ikawaha/kagome/v2 v2.9.4/go.mod h1:OYzxPG9dQSalvznlcLNR8TEKpPwzKhnZszw9LLbf7e8=
 github.com/ikawaha/slackbot v1.4.1 h1:TrRG4H16nNdw7ZeKy4cDwRRjVxmR21oa0su6MdlJ/4Q=
 github.com/ikawaha/slackbot v1.4.1/go.mod h1:n/Qd6ONJn1yufhVPWZm66OB2DCfdhbchqRQ6sF5gTdE=
-golang.org/x/net v0.0.0-20220624214902-1bab6f366d9e h1:TsQ7F31D3bUCLeqPT0u+yjp1guoArKaNKmCr22PYgTQ=
-golang.org/x/net v0.0.0-20220624214902-1bab6f366d9e/go.mod h1:XRhObCWvk6IyKnWLug+ECip1KBveYUHfp+8e9klMJ9c=
+golang.org/x/net v0.17.0 h1:pVaXccu2ozPjCXewfr1S7xza/zcXTity9cCdXQYSjIM=
+golang.org/x/net v0.17.0/go.mod h1:NxSsAGuq816PNPmqtQdLE42eU2Fs7NoRIZrHJAlaCOE=
