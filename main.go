@@ -29,7 +29,13 @@ func main() {
 		if err := bot.ReceiveMessage(context.TODO(), func(ctx context.Context, ev *socketmode.Event) error {
 			log.Printf("bot_id: %v, msg_user_id: %v, event: %+v\n", bot.ID, ev.UserID, ev)
 			if ev.IsSlashCommand() {
-				go bot.Response(ev)
+				dictType := IPA
+				if strings.HasSuffix(ev.Command, string(NEOLOGD)) {
+					dictType = NEOLOGD
+				} else if strings.HasSuffix(ev.Command, string(UNI)) {
+					dictType = UNI
+				}
+				go bot.ResponseWithDictType(ev, dictType)
 				return nil
 			}
 			if ev.IsMessage() && strings.HasPrefix(ev.Text, mentionTag) {

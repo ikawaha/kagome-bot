@@ -1,7 +1,11 @@
 github.com/ikawaha/kagome-dict v1.0.9 h1:1Gg735LbBYsdFu13fdTvW6eVt0qIf5+S2qXGJtlG8C0=
 github.com/ikawaha/kagome-dict v1.0.9/go.mod h1:mn9itZLkFb6Ixko7q8eZmUabHbg3i9EYewnhOtvd2RM=
+github.com/ikawaha/kagome-dict-ipa-neologd v0.3.2 h1:x6D6R2sb3aGEZXeF9T6s4LsTBrqyAaRsRN5x4/SemvE=
+github.com/ikawaha/kagome-dict-ipa-neologd v0.3.2/go.mod h1:YMGmKEnv2rg7ceAPbozlbL/rvjI9mTxIr+CwbTnJSQo=
 github.com/ikawaha/kagome-dict/ipa v1.0.10 h1:wk9I21yg+fKdL6HJB9WgGiyXIiu1VttumJwmIRwn0g8=
 github.com/ikawaha/kagome-dict/ipa v1.0.10/go.mod h1:rbaOKrF58zhtpV2+2sVZBj0sUSp9dVKPjr660MehJbs=
+github.com/ikawaha/kagome-dict/uni v1.1.9 h1:cyKLswS8DSjUPTwsOjlC4WEqRkndUUVgiJR0lcFqZUk=
+github.com/ikawaha/kagome-dict/uni v1.1.9/go.mod h1:xg/2qumqt+/s8DhDGYGIU7a+q9ori8ymFvDBtcAVmgc=
 github.com/ikawaha/kagome/v2 v2.9.4 h1:8TgrcS47+nVCIOyQJRE33+VAqQrdKIGuZ8QI9sHz95E=
 github.com/ikawaha/kagome/v2 v2.9.4/go.mod h1:OYzxPG9dQSalvznlcLNR8TEKpPwzKhnZszw9LLbf7e8=
 github.com/ikawaha/slackbot v1.4.2 h1:CRUqLs8mBxLXUstifeBiHlzSTfPdkrOq1IJogZnvd2A=

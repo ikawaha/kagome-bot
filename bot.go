@@ -4,13 +4,16 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"github.com/ikawaha/kagome-dict/dict"
+	"github.com/ikawaha/kagome-dict/ipa"
+	"github.com/ikawaha/kagome-dict/uni"
 	"io"
 	"log"
 	"os/exec"
 	"strings"
 	"time"
 
-	"github.com/ikawaha/kagome-dict/ipa"
+	"github.com/ikawaha/kagome-dict-ipa-neologd"
 	"github.com/ikawaha/kagome/v2/tokenizer"
 	"github.com/ikawaha/slackbot"
 )
@@ -36,6 +39,10 @@ func NewBot(appToken, botToken, botName string) (*Bot, error) {
 }
 
 func (bot Bot) Response(e *slackbot.Event) {
+	bot.ResponseWithDictType(e, IPA)
+}
+
+func (bot Bot) ResponseWithDictType(e *slackbot.Event, dictionary DictType) {
 	sen := e.Text
 	if len(sen) == 0 {
 		e.Text = "呼んだ？"
@@ -44,7 +51,7 @@ func (bot Bot) Response(e *slackbot.Event) {
 		}
 		return
 	}
-	img, tokens, err := createTokenizeLatticeImage(sen)
+	img, tokens, err := createTokenizeLatticeImage(sen, dictionary)
 	if err != nil {
 		log.Printf("create lattice image error, %v", err)
 		e.Text = fmt.Sprintf("形態素解析に失敗しちゃいました．%v です", err)
@@ -59,8 +66,16 @@ func (bot Bot) Response(e *slackbot.Event) {
 	}
 }
 
-func createTokenizeLatticeImage(sen string) (io.Reader, []tokenizer.Token, error) {
-	t, err := tokenizer.New(ipa.Dict())
+func createTokenizeLatticeImage(sen string, dictType DictType) (io.Reader, []tokenizer.Token, error) {
+	var dictionary *dict.Dict
+	if dictType == UNI {
+		dictionary = uni.Dict()
+	} else if dictType == NEOLOGD {
+		dictionary = ipaneologd.Dict()
+	} else {
+		dictionary = ipa.Dict()
+	}
+	t, err := tokenizer.New(dictionary)
 	if err != nil {
 		return nil, nil, fmt.Errorf("tokenizer initialization failed, %w", err)
 	}
@@ -97,3 +112,11 @@ func yield(tokens []tokenizer.Token) string {
 	}
 	return buf.String()
 }
+
+type DictType string
+
+const (
+	IPA     DictType = "ipa"
+	UNI     DictType = "uni"
+	NEOLOGD DictType = "neologd"
+)
