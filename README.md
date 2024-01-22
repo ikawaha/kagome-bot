@@ -27,6 +27,18 @@ The required tokens and permissions are:
     * files:write
     * users:read    
 
+## slash command
+
+The slash command supports multiple dictionaries, e.g. `/tokenize-uni`, `/tokenize-neologd`.
+The bot switches dictionaries from suffix string.
+The bot supports the following suffix strings.
+
+* `uni` - [github.com/ikawaha/kagome-dict/uni](https://github.com/ikawaha/kagome-dict/uni)
+* `neologd` - [github.com/ikawaha/kagome-dict-ipa-neologd](https://github.com/ikawaha/kagome-dict-ipa-neologd)
+* `ipa` (default) - [github.com/ikawaha/kagome-dict/tree/master/ipa](https://github.com/ikawaha/kagome-dict/tree/master/ipa) 
+
+
+
 # License
 
 MIT
