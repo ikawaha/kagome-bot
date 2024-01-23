@@ -1,25 +1,26 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
+
+	"github.com/ikawaha/kagome-bot/client"
 )
 
 func main() {
 	if len(os.Args) != 3 {
-		fmt.Fprintf(os.Stderr, "usage: bot app-level-token slack-bot-token")
+		fmt.Fprintf(os.Stderr, "usage: client app-level-token slack-client-token\n")
 		os.Exit(1)
 	}
-	debug := false
-	bot, err := NewBot(os.Args[1], os.Args[2], debug)
+	var debug bool
+	bot, err := client.New(os.Args[1], os.Args[2], debug)
 	if err != nil {
 		log.Fatal(err)
 	}
 	fmt.Println("^C exits")
-
-	err = bot.Run()
-	if err != nil {
+	if err = bot.Run(context.Background()); err != nil {
 		log.Fatal(err)
 	}
 }
