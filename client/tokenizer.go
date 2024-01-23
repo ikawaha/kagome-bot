@@ -51,7 +51,7 @@ func newDict(d dictKind) *dict.Dict {
 	}
 }
 
-func tokenize(txt string, dict dictKind) (*tokenizeResponse, error) {
+func tokenize(ctx context.Context, txt string, dict dictKind) (*tokenizeResponse, error) {
 	t, err := tokenizer.New(newDict(dict))
 	if err != nil {
 		return nil, fmt.Errorf("tokenizer initialization failed, %w", err)
@@ -60,7 +60,7 @@ func tokenize(txt string, dict dictKind) (*tokenizeResponse, error) {
 		return nil, fmt.Errorf("command %v is not installed in your $PATH", GraphvizCmd)
 	}
 	var buf bytes.Buffer
-	ctx, cancel := context.WithTimeout(context.Background(), CmdTimeout)
+	ctx, cancel := context.WithTimeout(ctx, CmdTimeout)
 	defer cancel()
 	cmd := exec.CommandContext(ctx, GraphvizCmd, "-T"+UploadFileType)
 	r0, w0 := io.Pipe()

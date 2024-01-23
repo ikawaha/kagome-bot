@@ -1,6 +1,7 @@
 package client
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"strings"
@@ -10,7 +11,7 @@ import (
 	"github.com/slack-go/slack/socketmode"
 )
 
-func newAppMentionTokenizeHandlerFunc(botID string) socketmode.SocketmodeHandlerFunc {
+func newAppMentionTokenizeHandlerFunc(ctx context.Context, botID string) socketmode.SocketmodeHandlerFunc {
 	return func(event *socketmode.Event, client *socketmode.Client) {
 		p, ok := event.Data.(slackevents.EventsAPIEvent)
 		if !ok {
@@ -24,11 +25,11 @@ func newAppMentionTokenizeHandlerFunc(botID string) socketmode.SocketmodeHandler
 			return
 		}
 		s := strings.TrimSpace(ev.Text[len(botID):])
-		response(client, s, ev.Channel, ipaDict)
+		response(ctx, client, s, ev.Channel, ipaDict)
 	}
 }
 
-func newMessageTokenizeHandlerFunc(botID string) socketmode.SocketmodeHandlerFunc {
+func newMessageTokenizeHandlerFunc(ctx context.Context, botID string) socketmode.SocketmodeHandlerFunc {
 	return func(event *socketmode.Event, client *socketmode.Client) {
 		eventPayload, ok := event.Data.(slackevents.EventsAPIEvent)
 		if !ok {
@@ -46,7 +47,7 @@ func newMessageTokenizeHandlerFunc(botID string) socketmode.SocketmodeHandlerFun
 			return
 		}
 		s := strings.TrimSpace(p.Text[len(botID):])
-		response(client, s, p.Channel, ipaDict)
+		response(ctx, client, s, p.Channel, ipaDict)
 	}
 }
 
@@ -60,19 +61,21 @@ func getDictType(cmd string) dictKind {
 	return dictType
 }
 
-func slashCommandTokenizeHandlerFunc(event *socketmode.Event, client *socketmode.Client) {
-	ev, ok := event.Data.(slack.SlashCommand)
-	if !ok {
-		client.Debugf("skipped command: %v", event)
+func newSlashCommandTokenizeHandlerFunc(ctx context.Context) socketmode.SocketmodeHandlerFunc {
+	return func(event *socketmode.Event, client *socketmode.Client) {
+		ev, ok := event.Data.(slack.SlashCommand)
+		if !ok {
+			client.Debugf("skipped command: %v", event)
+		}
+		client.Ack(*event.Request)
+		dict := getDictType(ev.Command)
+		cmd := fmt.Sprintf("%v %v", ev.Command, ev.Text)
+		if _, _, err := client.PostMessage(ev.ChannelID, slack.MsgOptionText(cmd, false)); err != nil {
+			client.Debugf("failed to post message: %v", err)
+			return
+		}
+		response(ctx, client, ev.Text, ev.ChannelID, dict)
 	}
-	client.Ack(*event.Request)
-	dict := getDictType(ev.Command)
-	cmd := fmt.Sprintf("%v %v", ev.Command, ev.Text)
-	if _, _, err := client.PostMessage(ev.ChannelID, slack.MsgOptionText(cmd, false)); err != nil {
-		client.Debugf("failed to post message: %v", err)
-		return
-	}
-	response(client, ev.Text, ev.ChannelID, dict)
 }
 
 func defaultHandler(event *socketmode.Event, client *socketmode.Client) {
@@ -80,7 +83,7 @@ func defaultHandler(event *socketmode.Event, client *socketmode.Client) {
 	client.Debugf("skip event: %v", event.Type)
 }
 
-func response(client *socketmode.Client, txt string, channel string, dict dictKind) {
+func response(ctx context.Context, client *socketmode.Client, txt string, channel string, dict dictKind) {
 	if len(txt) == 0 {
 		msg := "呼んだ？"
 		if _, _, err := client.PostMessage(channel, slack.MsgOptionText(msg, false)); err != nil {
@@ -88,7 +91,7 @@ func response(client *socketmode.Client, txt string, channel string, dict dictKi
 		}
 		return
 	}
-	resp, err := tokenize(txt, dict)
+	resp, err := tokenize(ctx, txt, dict)
 	if err != nil {
 		log.Printf("create lattice image error, %v", err)
 		msg := fmt.Sprintf("形態素解析に失敗しちゃいました．%q です", err)
