@@ -35,8 +35,8 @@ func main() {
 				} else if strings.HasSuffix(ev.Command, string(UNI)) {
 					dictType = UNI
 				}
-				ev.Text = fmt.Sprintf("%v %v", ev.Command, ev.Text)
-				if err := bot.PostMessage(context.TODO(), ev.Channel, ev.Text); err != nil {
+				command := fmt.Sprintf("%v %v", ev.Command, ev.Text)
+				if err := bot.PostMessage(context.TODO(), ev.Channel, command); err != nil {
 					log.Printf("post message failed, msg: %+v, %v", ev, err)
 				}
 				go bot.ResponseWithDictType(ev, dictType)
