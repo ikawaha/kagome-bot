@@ -22,6 +22,5 @@ func main() {
 	err = bot.Run()
 	if err != nil {
 		log.Fatal(err)
-		panic(err)
 	}
 }
