@@ -15,7 +15,6 @@ func main() {
 	bot, err := NewBot(os.Args[1], os.Args[2], debug)
 	if err != nil {
 		log.Fatal(err)
-		panic(err)
 	}
 	fmt.Println("^C exits")
 
