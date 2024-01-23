@@ -12,7 +12,7 @@ kagome-bot is a slack bot which tokenizes a sentence and uploads it's lattice im
 
 ```
 $ go install github.com/ikawaha/kagome-bot
-$ kagome-bot <app-level-token> <bot-token> <bot-name>
+$ kagome-bot <app-level-token> <bot-token>
 ```
 
 The required tokens and permissions are:
