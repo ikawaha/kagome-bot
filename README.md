@@ -20,6 +20,8 @@ The required tokens and permissions are:
 * app-level token (enable socket mode)
     * subscribe to bot events
         * message.channels
+        * app_mention
+        * message.im - If you want to use in DM
 * bot token
     * channels:history
     * channels:join
