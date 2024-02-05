@@ -33,7 +33,6 @@ func New(appToken, botToken string, debug bool) (*Bot, error) {
 
 func (bot Bot) Run(ctx context.Context) error {
 	h := socketmode.NewSocketmodeHandler(bot.client)
-	h.HandleEvents(slackevents.AppMention, newAppMentionTokenizeHandlerFunc(ctx, bot.id))
 	h.HandleEvents(slackevents.Message, newMessageTokenizeHandlerFunc(ctx, bot.id))
 	h.Handle(socketmode.EventTypeSlashCommand, newSlashCommandTokenizeHandlerFunc(ctx))
 	h.HandleDefault(defaultHandler)
