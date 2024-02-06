@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/ikawaha/kagome-bot/client"
-	"runtime/debug"
+	debugpkg "runtime/debug"
 )
 
 func main() {
@@ -16,7 +16,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "usage: client app-level-token slack-client-token\n")
 		os.Exit(1)
 	}
-	bi, ok := debug.ReadBuildInfo()
+	bi, ok := debugpkg.ReadBuildInfo()
 	if !ok {
 		log.Fatal("Failed to read build info")
 	}
@@ -29,8 +29,8 @@ func main() {
 			}
 		}
 	}
-	var dflag bool
-	bot, err := client.New(os.Args[1], os.Args[2], dflag, versions)
+	var debug bool
+	bot, err := client.New(os.Args[1], os.Args[2], debug, versions)
 	if err != nil {
 		log.Fatal(err)
 	}
