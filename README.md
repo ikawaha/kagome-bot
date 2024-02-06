@@ -38,7 +38,9 @@ The bot supports the following suffix strings.
 * `neologd` - [github.com/ikawaha/kagome-dict-ipa-neologd](https://github.com/ikawaha/kagome-dict-ipa-neologd)
 * `ipa` (default) - [github.com/ikawaha/kagome-dict/tree/master/ipa](https://github.com/ikawaha/kagome-dict/tree/master/ipa) 
 
+## load dictionaries on startup
 
+Loading dictionaries on init() in [client/tokenizer.go](client/tokenizer.go).
 
 # License
 

@@ -38,7 +38,7 @@ type tokenizeResponse struct {
 	comment string
 }
 
-func LoadDict() {
+func init() {
 	_ = ipa.Dict()
 	_ = uni.Dict()
 	_ = ipaneologd.Dict()
