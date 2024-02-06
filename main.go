@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/ikawaha/kagome-bot/client"
+	"runtime/debug"
 )
 
 func main() {
@@ -14,8 +16,21 @@ func main() {
 		fmt.Fprintf(os.Stderr, "usage: client app-level-token slack-client-token\n")
 		os.Exit(1)
 	}
-	var debug bool
-	bot, err := client.New(os.Args[1], os.Args[2], debug)
+	bi, ok := debug.ReadBuildInfo()
+	if !ok {
+		log.Fatal("Failed to read build info")
+	}
+	var versions client.Versions
+	for _, dep := range bi.Deps {
+		if strings.Contains(dep.Path, "ikawaha/kagome/v2") {
+			versions = client.Versions{
+				Kagome: dep.Version,
+				Bot:    bi.Main.Version,
+			}
+		}
+	}
+	var dflag bool
+	bot, err := client.New(os.Args[1], os.Args[2], dflag, versions)
 	if err != nil {
 		log.Fatal(err)
 	}

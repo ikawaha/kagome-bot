@@ -11,7 +11,7 @@ import (
 	"github.com/slack-go/slack/socketmode"
 )
 
-func newMessageTokenizeHandlerFunc(ctx context.Context, botID string) socketmode.SocketmodeHandlerFunc {
+func newMessageTokenizeHandlerFunc(ctx context.Context, botID string, versions Versions) socketmode.SocketmodeHandlerFunc {
 	return func(event *socketmode.Event, client *socketmode.Client) {
 		eventPayload, ok := event.Data.(slackevents.EventsAPIEvent)
 		if !ok {
@@ -29,7 +29,7 @@ func newMessageTokenizeHandlerFunc(ctx context.Context, botID string) socketmode
 			return
 		}
 		s := strings.TrimSpace(p.Text[len(botID):])
-		response(ctx, client, s, p.Channel, ipaDict)
+		response(ctx, client, s, p.Channel, ipaDict, versions)
 	}
 }
 
@@ -43,7 +43,7 @@ func getDictType(cmd string) dictKind {
 	return dictType
 }
 
-func newSlashCommandTokenizeHandlerFunc(ctx context.Context) socketmode.SocketmodeHandlerFunc {
+func newSlashCommandTokenizeHandlerFunc(ctx context.Context, versions Versions) socketmode.SocketmodeHandlerFunc {
 	return func(event *socketmode.Event, client *socketmode.Client) {
 		ev, ok := event.Data.(slack.SlashCommand)
 		if !ok {
@@ -56,7 +56,7 @@ func newSlashCommandTokenizeHandlerFunc(ctx context.Context) socketmode.Socketmo
 			client.Debugf("failed to post message: %v", err)
 			return
 		}
-		response(ctx, client, ev.Text, ev.ChannelID, dict)
+		response(ctx, client, ev.Text, ev.ChannelID, dict, versions)
 	}
 }
 
@@ -65,9 +65,9 @@ func defaultHandler(event *socketmode.Event, client *socketmode.Client) {
 	client.Debugf("skip event: %v", event.Type)
 }
 
-func response(ctx context.Context, client *socketmode.Client, txt string, channel string, dict dictKind) {
+func response(ctx context.Context, client *socketmode.Client, txt string, channel string, dict dictKind, versions Versions) {
 	if len(txt) == 0 {
-		msg := "呼んだ？"
+		msg := fmt.Sprintf("呼んだ？ (bot: %s/ kagome: %s)", versions.Bot, versions.Kagome)
 		if _, _, err := client.PostMessage(channel, slack.MsgOptionText(msg, false)); err != nil {
 			log.Printf("post message failed, msg: %+v, %v", txt, err)
 		}
