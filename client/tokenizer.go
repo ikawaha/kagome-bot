@@ -38,6 +38,12 @@ type tokenizeResponse struct {
 	comment string
 }
 
+func LoadDict() {
+	_ = ipa.Dict()
+	_ = uni.Dict()
+	_ = ipaneologd.Dict()
+}
+
 func newDict(d dictKind) *dict.Dict {
 	switch d {
 	case ipaDict:

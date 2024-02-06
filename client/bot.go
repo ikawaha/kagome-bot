@@ -15,6 +15,7 @@ type Bot struct {
 }
 
 func New(appToken, botToken string, debug bool) (*Bot, error) {
+	LoadDict()
 	c := slack.New(
 		botToken,
 		slack.OptionAppLevelToken(appToken),
