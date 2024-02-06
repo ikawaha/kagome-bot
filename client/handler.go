@@ -11,24 +11,6 @@ import (
 	"github.com/slack-go/slack/socketmode"
 )
 
-func newAppMentionTokenizeHandlerFunc(ctx context.Context, botID string) socketmode.SocketmodeHandlerFunc {
-	return func(event *socketmode.Event, client *socketmode.Client) {
-		p, ok := event.Data.(slackevents.EventsAPIEvent)
-		if !ok {
-			client.Debugf("skipped Envelope: %v", event)
-			return
-		}
-		client.Ack(*event.Request)
-		ev, ok := p.InnerEvent.Data.(*slackevents.AppMentionEvent)
-		if !ok {
-			client.Debugf("skipped Payload Event: %v", event)
-			return
-		}
-		s := strings.TrimSpace(ev.Text[len(botID):])
-		response(ctx, client, s, ev.Channel, ipaDict)
-	}
-}
-
 func newMessageTokenizeHandlerFunc(ctx context.Context, botID string) socketmode.SocketmodeHandlerFunc {
 	return func(event *socketmode.Event, client *socketmode.Client) {
 		eventPayload, ok := event.Data.(slackevents.EventsAPIEvent)
