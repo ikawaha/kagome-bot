@@ -11,7 +11,7 @@ import (
 	"github.com/slack-go/slack/socketmode"
 )
 
-func newMessageTokenizeHandlerFunc(ctx context.Context, botID string, versions Versions) socketmode.SocketmodeHandlerFunc {
+func newMessageTokenizeHandlerFunc(ctx context.Context, botID string, info botInfo) socketmode.SocketmodeHandlerFunc {
 	return func(event *socketmode.Event, client *socketmode.Client) {
 		eventPayload, ok := event.Data.(slackevents.EventsAPIEvent)
 		if !ok {
@@ -29,7 +29,7 @@ func newMessageTokenizeHandlerFunc(ctx context.Context, botID string, versions V
 			return
 		}
 		s := strings.TrimSpace(p.Text[len(botID):])
-		response(ctx, client, s, p.Channel, ipaDict, versions)
+		response(ctx, client, s, p.Channel, ipaDict, info)
 	}
 }
 
@@ -43,7 +43,7 @@ func getDictType(cmd string) dictKind {
 	return dictType
 }
 
-func newSlashCommandTokenizeHandlerFunc(ctx context.Context, versions Versions) socketmode.SocketmodeHandlerFunc {
+func newSlashCommandTokenizeHandlerFunc(ctx context.Context, info botInfo) socketmode.SocketmodeHandlerFunc {
 	return func(event *socketmode.Event, client *socketmode.Client) {
 		ev, ok := event.Data.(slack.SlashCommand)
 		if !ok {
@@ -56,7 +56,7 @@ func newSlashCommandTokenizeHandlerFunc(ctx context.Context, versions Versions) 
 			client.Debugf("failed to post message: %v", err)
 			return
 		}
-		response(ctx, client, ev.Text, ev.ChannelID, dict, versions)
+		response(ctx, client, ev.Text, ev.ChannelID, dict, info)
 	}
 }
 
@@ -65,9 +65,9 @@ func defaultHandler(event *socketmode.Event, client *socketmode.Client) {
 	client.Debugf("skip event: %v", event.Type)
 }
 
-func response(ctx context.Context, client *socketmode.Client, txt string, channel string, dict dictKind, versions Versions) {
+func response(ctx context.Context, client *socketmode.Client, txt string, channel string, dict dictKind, info botInfo) {
 	if len(txt) == 0 {
-		msg := fmt.Sprintf("呼んだ？ (bot: %s/ kagome: %s)", versions.Bot, versions.Kagome)
+		msg := fmt.Sprintf("呼んだ？ (bot: %s/ kagome: %s)", info.botVersion, info.tokenizerVersion)
 		if _, _, err := client.PostMessage(channel, slack.MsgOptionText(msg, false)); err != nil {
 			log.Printf("post message failed, msg: %+v, %v", txt, err)
 		}
