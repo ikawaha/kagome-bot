@@ -92,20 +92,20 @@ func postTokenizeResult(ctx context.Context, client *socketmode.Client, txt stri
 		}
 		return
 	}
-	_, ts2, err := client.PostMessage(channel, slack.MsgOptionText(resp.comment, false))
+	_, tt, err := client.PostMessage(channel, slack.MsgOptionText(resp.comment, false))
 	if err != nil {
-		log.Printf("post message failed, msg: %+v, %v", txt, err)
-	} else {
-		if _, err = client.UploadFile(
-			slack.FileUploadParameters{
-				Reader:          resp.image,
-				Filetype:        UploadFileType,
-				Filename:        UploadImageFileName,
-				Title:           resp.title,
-				Channels:        []string{channel},
-				ThreadTimestamp: ts2,
-			}); err != nil {
-			log.Printf("upload lattice image error, %v", err)
-		}
+		log.Printf("post message failed, msg: %s, %v", txt, err)
+		return
+	}
+	if _, err = client.UploadFile(
+		slack.FileUploadParameters{
+			Reader:          resp.image,
+			Filetype:        UploadFileType,
+			Filename:        UploadImageFileName,
+			Title:           resp.title,
+			Channels:        []string{channel},
+			ThreadTimestamp: tt,
+		}); err != nil {
+		log.Printf("upload lattice image error, %v", err)
 	}
 }
