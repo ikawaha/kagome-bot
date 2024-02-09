@@ -11,7 +11,7 @@ import (
 	"github.com/slack-go/slack/socketmode"
 )
 
-func newMessageTokenizeHandlerFunc(ctx context.Context, botID string, info botInfo) socketmode.SocketmodeHandlerFunc {
+func newMessageTokenizeHandlerFunc(ctx context.Context, botID string) socketmode.SocketmodeHandlerFunc {
 	return func(event *socketmode.Event, client *socketmode.Client) {
 		eventPayload, ok := event.Data.(slackevents.EventsAPIEvent)
 		if !ok {
@@ -29,7 +29,11 @@ func newMessageTokenizeHandlerFunc(ctx context.Context, botID string, info botIn
 			return
 		}
 		s := strings.TrimSpace(p.Text[len(botID):])
-		response(ctx, client, s, p.Channel, ipaDict, info)
+		if s == "" {
+			ack(ctx, client, p.Channel)
+			return
+		}
+		postTokenizeResult(ctx, client, s, p.Channel, ipaDict)
 	}
 }
 
@@ -43,7 +47,7 @@ func getDictType(cmd string) dictKind {
 	return dictType
 }
 
-func newSlashCommandTokenizeHandlerFunc(ctx context.Context, info botInfo) socketmode.SocketmodeHandlerFunc {
+func newSlashCommandTokenizeHandlerFunc(ctx context.Context) socketmode.SocketmodeHandlerFunc {
 	return func(event *socketmode.Event, client *socketmode.Client) {
 		ev, ok := event.Data.(slack.SlashCommand)
 		if !ok {
@@ -56,7 +60,11 @@ func newSlashCommandTokenizeHandlerFunc(ctx context.Context, info botInfo) socke
 			client.Debugf("failed to post message: %v", err)
 			return
 		}
-		response(ctx, client, ev.Text, ev.ChannelID, dict, info)
+		if ev.Text == "" {
+			ack(ctx, client, ev.ChannelID)
+			return
+		}
+		postTokenizeResult(ctx, client, ev.Text, ev.ChannelID, dict)
 	}
 }
 
@@ -65,14 +73,16 @@ func defaultHandler(event *socketmode.Event, client *socketmode.Client) {
 	client.Debugf("skip event: %v", event.Type)
 }
 
-func response(ctx context.Context, client *socketmode.Client, txt string, channel string, dict dictKind, info botInfo) {
-	if len(txt) == 0 {
-		msg := fmt.Sprintf("呼んだ？ (bot: %s/ kagome: %s)", info.botVersion, info.tokenizerVersion)
-		if _, _, err := client.PostMessage(channel, slack.MsgOptionText(msg, false)); err != nil {
-			log.Printf("post message failed, msg: %+v, %v", txt, err)
-		}
-		return
+func ack(ctx context.Context, client *socketmode.Client, channel string) {
+	bver := BotVersionFromContext(ctx)
+	tver := TokenizerVersionFromContext(ctx)
+	msg := fmt.Sprintf("呼んだ？ (bot: %s/ kagome: %s)", bver, tver)
+	if _, _, err := client.PostMessage(channel, slack.MsgOptionText(msg, false)); err != nil {
+		log.Printf("ack failed: %v", err)
 	}
+}
+
+func postTokenizeResult(ctx context.Context, client *socketmode.Client, txt string, channel string, dict dictKind) {
 	resp, err := tokenize(ctx, txt, dict)
 	if err != nil {
 		log.Printf("create lattice image error, %v", err)

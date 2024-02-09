@@ -46,13 +46,11 @@ type botInfo struct {
 
 func (bot Bot) Run(ctx context.Context) error {
 	v := bot.version()
-	info := botInfo{
-		botVersion:       v.bot,
-		tokenizerVersion: v.tokenizer,
-	}
+	ctx = WithBotVersion(ctx, v.bot)
+	ctx = WithTokenizerVersion(ctx, v.tokenizer)
 	h := socketmode.NewSocketmodeHandler(bot.client)
-	h.HandleEvents(slackevents.Message, newMessageTokenizeHandlerFunc(ctx, bot.id, info))
-	h.Handle(socketmode.EventTypeSlashCommand, newSlashCommandTokenizeHandlerFunc(ctx, info))
+	h.HandleEvents(slackevents.Message, newMessageTokenizeHandlerFunc(ctx, bot.id))
+	h.Handle(socketmode.EventTypeSlashCommand, newSlashCommandTokenizeHandlerFunc(ctx))
 	h.HandleDefault(defaultHandler)
 
 	return h.RunEventLoopContext(ctx)
@@ -65,8 +63,8 @@ type version struct {
 
 func (bot Bot) version() version {
 	ret := version{
-		bot:       "devel",
-		tokenizer: "unknown",
+		bot:       develVersion,
+		tokenizer: unknownVersion,
 	}
 	info, ok := debugpkg.ReadBuildInfo()
 	if ok {
