@@ -8,7 +8,7 @@ require (
 	github.com/ikawaha/kagome-dict/ipa v1.0.10
 	github.com/ikawaha/kagome-dict/uni v1.1.9
 	github.com/ikawaha/kagome/v2 v2.9.5
-	github.com/slack-go/slack v0.12.3
+	github.com/slack-go/slack v0.12.5
 )
 
 require github.com/gorilla/websocket v1.4.2 // indirect
