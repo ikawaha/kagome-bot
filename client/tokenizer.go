@@ -34,7 +34,7 @@ const (
 
 type tokenizeResponse struct {
 	title   string
-	image   io.Reader
+	image   *bytes.Buffer
 	comment string
 }
 
