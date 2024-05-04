@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"strings"
+	"time"
 
 	"github.com/slack-go/slack"
 	"github.com/slack-go/slack/slackevents"
@@ -98,16 +99,19 @@ func postTokenizeResult(ctx context.Context, client *socketmode.Client, txt stri
 		return
 	}
 	if _, err = client.UploadFileV2Context(ctx, slack.UploadFileV2Parameters{
-		File:            "lattice.png",
 		FileSize:        resp.image.Len(),
 		Reader:          resp.image,
-		Filename:        UploadImageFileName,
+		Filename:        imageFileName(),
 		Title:           resp.title,
 		Channel:         channel,
 		ThreadTimestamp: tt,
 		AltTxt:          txt,
-		SnippetText:     "kagome-bot",
 	}); err != nil {
 		log.Printf("upload lattice image error, %v", err)
 	}
+}
+
+func imageFileName() string {
+	t := time.Now().Format("20060102150405")
+	return UploadImageFileNamePrefix + "_" + t + "." + UploadFileType
 }

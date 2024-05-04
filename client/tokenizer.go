@@ -20,8 +20,8 @@ const (
 	GraphvizCmd = "dot"
 	CmdTimeout  = 25 * time.Second
 
-	UploadFileType      = "png"
-	UploadImageFileName = "lattice.png"
+	UploadFileType            = "png"
+	UploadImageFileNamePrefix = "lattice"
 )
 
 type dictKind string
@@ -63,7 +63,7 @@ func tokenize(ctx context.Context, txt string, dict dictKind) (*tokenizeResponse
 		return nil, fmt.Errorf("tokenizer initialization failed, %w", err)
 	}
 	if _, err := exec.LookPath(GraphvizCmd); err != nil {
-		return nil, fmt.Errorf("command %v is not installed in your $PATH", GraphvizCmd)
+		return nil, fmt.Errorf("command %q is not installed in your $PATH", GraphvizCmd)
 	}
 	var buf bytes.Buffer
 	ctx, cancel := context.WithTimeout(ctx, CmdTimeout)
