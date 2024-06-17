@@ -10,8 +10,8 @@ github.com/ikawaha/kagome-dict v1.0.10 h1:BwmIjiF2R3NXsZUe0PPnlhF54dk3/Iw+S911P5
 github.com/ikawaha/kagome-dict v1.0.10/go.mod h1:4LbfaTJ61AdPfGLycmWGUWWRyvKFqc1n+Qg7hrDe04k=
 github.com/ikawaha/kagome-dict-ipa-neologd v0.3.2 h1:x6D6R2sb3aGEZXeF9T6s4LsTBrqyAaRsRN5x4/SemvE=
 github.com/ikawaha/kagome-dict-ipa-neologd v0.3.2/go.mod h1:YMGmKEnv2rg7ceAPbozlbL/rvjI9mTxIr+CwbTnJSQo=
-github.com/ikawaha/kagome-dict/ipa v1.0.11 h1:3eBjkQGxxLLkc2I1PIA+eE77QOTbyb2SvG1aR2voYe8=
-github.com/ikawaha/kagome-dict/ipa v1.0.11/go.mod h1:QdLA+AyigfRVvoP2btpTqVrlTBeo4MeXynRQvLNhAbc=
+github.com/ikawaha/kagome-dict/ipa v1.2.0 h1:lgehXOf2USDkBwGPEBD9sbbOBk3WlkhZ2zejPSLjIJA=
+github.com/ikawaha/kagome-dict/ipa v1.2.0/go.mod h1:LRtB3BXipG3Iu4V+KI/E1E7r9GMa79WgAH6IAW4wy6A=
 github.com/ikawaha/kagome-dict/uni v1.2.0 h1:BMv15D69ngwD0Yqc3QiniAYpYAQ+IRDvBGTk/Jqj8dw=
 github.com/ikawaha/kagome-dict/uni v1.2.0/go.mod h1:wHaaFLLTKRJVGzElVED9RiMABZ8GSsaaJ7Tn3wzNon4=
 github.com/ikawaha/kagome/v2 v2.9.8 h1:38NPtQ7Rqni8uAyvfrkeoRRC2EhxntbRJSWfdG2FE50=
