@@ -12,8 +12,8 @@ github.com/ikawaha/kagome-dict-ipa-neologd v0.3.2 h1:x6D6R2sb3aGEZXeF9T6s4LsTBrq
 github.com/ikawaha/kagome-dict-ipa-neologd v0.3.2/go.mod h1:YMGmKEnv2rg7ceAPbozlbL/rvjI9mTxIr+CwbTnJSQo=
 github.com/ikawaha/kagome-dict/ipa v1.0.11 h1:3eBjkQGxxLLkc2I1PIA+eE77QOTbyb2SvG1aR2voYe8=
 github.com/ikawaha/kagome-dict/ipa v1.0.11/go.mod h1:QdLA+AyigfRVvoP2btpTqVrlTBeo4MeXynRQvLNhAbc=
-github.com/ikawaha/kagome-dict/uni v1.1.10 h1:xwTlOHF0iKdLD/G3WipUjjiEaWUd1AUEUoc+qa9KA4Q=
-github.com/ikawaha/kagome-dict/uni v1.1.10/go.mod h1:H9aRHsbVAGW1bHupzM1pWJYhmPrzVp+NlB28NHJkI1o=
+github.com/ikawaha/kagome-dict/uni v1.2.0 h1:BMv15D69ngwD0Yqc3QiniAYpYAQ+IRDvBGTk/Jqj8dw=
+github.com/ikawaha/kagome-dict/uni v1.2.0/go.mod h1:wHaaFLLTKRJVGzElVED9RiMABZ8GSsaaJ7Tn3wzNon4=
 github.com/ikawaha/kagome/v2 v2.9.8 h1:38NPtQ7Rqni8uAyvfrkeoRRC2EhxntbRJSWfdG2FE50=
 github.com/ikawaha/kagome/v2 v2.9.8/go.mod h1:PD8yjbWsyBPcsfEjB75heuB0LOPlmMH4Mb2htdB4UWo=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
